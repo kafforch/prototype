@@ -1,8 +1,8 @@
 class Plan():
 
     def __init__(self):
-        tasks = []
-        dependencies = []
+        self.tasks = []
+        self.dependencies = []
 
     def add_tasks(self, in_tasks):
         for task in in_tasks:
