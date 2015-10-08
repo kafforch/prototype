@@ -11,3 +11,6 @@ class Plan():
     def add_dependencies(self, in_dependencies):
         for dep in in_dependencies:
             self.dependencies.add(dep)
+
+    def get_tasks(self):
+        return self.tasks
