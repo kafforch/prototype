@@ -1,5 +1,6 @@
 """Prototype kaffo"""
 import sys
+import opd
 
 def main():
     """Main entry point for the script."""
