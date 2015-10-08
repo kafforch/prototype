@@ -1,16 +1,20 @@
 class Plan():
 
-    def __init__(self):
-        self.tasks = []
-        self.dependencies = []
+    def __init__(self, tasks=[], dependencies=[]):
+        self.tasks = tasks
+        self.dependencies = dependencies
 
     def add_tasks(self, in_tasks):
-        for task in in_tasks:
-            self.tasks.add(task)
+        self.tasks.extend(in_tasks)
+
+    def add_task(self, task):
+        self.tasks.append(task)
 
     def add_dependencies(self, in_dependencies):
-        for dep in in_dependencies:
-            self.dependencies.add(dep)
+        self.dependencies.extend(in_dependencies)
+
+    def add_dependency(self, dependency):
+        self.dependencies.append(dependency)
 
     def get_tasks(self):
         return self.tasks
