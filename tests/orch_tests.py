@@ -26,6 +26,7 @@ class OrchTest(unittest.TestCase):
     def test_retrieval_by_id(self):
         id = orchestrator.submit_plan('{"test": "345"}')
         plan = orchestrator.get_plan(id)
+        orchestrator._plan_mgr.purge_plans()
         self.assertTrue(plan['test'] == "345")
 
 
