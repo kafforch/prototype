@@ -29,4 +29,18 @@ class OrchTest(unittest.TestCase):
         orchestrator._plan_mgr.purge_plans()
         self.assertTrue(plan['test'] == "345")
 
+    def test_plan_execution(self):
+        id = orchestrator.submit_plan('{"test": "345"}')
+        plan = orchestrator.get_plan(id)
+        self.assertTrue(plan["plan_state"] == "INITIAL")
+        started_plans = orchestrator._plan_mgr.execute_plans()
+        self.assertGreater(len(started_plans), 0)
+        plan = orchestrator.get_plan(id)
+        self.assertTrue(plan["plan_state"] == "RUNNING")
+        started_plans = orchestrator._plan_mgr.execute_plans()
+        self.assertEqual(len(started_plans), 0)
+        orchestrator._plan_mgr.purge_plans()
+
+
+
 
