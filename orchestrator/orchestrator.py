@@ -10,3 +10,6 @@ def submit_plan(json_string):
     plan = json.loads(json_string)
     plan_id = _plan_mgr.create_plan(plan)
     return plan_id
+
+def get_plan(plan_id):
+    return _plan_mgr.plans[plan_id]
