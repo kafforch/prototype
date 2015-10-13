@@ -5,10 +5,8 @@ class TaskManagerTest(unittest.TestCase):
 
     def test_adding_tasks_and_dependencies(self):
         id = orchestrator.submit_plan(open('tests/json/plan_01.json', 'r').read())
-        plan = orchestrator.get_plan(id)
-        self.assertTrue(plan["plan_state"] == "INITIAL")
         orchestrator.execute_plans()
-        plan = orchestrator.get_plan(id)
-        self.assertTrue(plan["plan_state"] == "RUNNING")
-        orchestrator.execute_plans()
+        _tm = task_mgr.TaskManager()
+        print _tm.get_tasks_for_plan(id)
+        print _tm.get_dependencies_for_plan(id)
         orchestrator.purge_plans()

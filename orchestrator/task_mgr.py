@@ -26,15 +26,17 @@ class TaskManager:
 
 
     def submit_tasks(self, plan_id, tasks, dependencies):
+
         try:
-            self.tasks[plan_id].append(tasks)
+            self.tasks[plan_id].update(tasks)
         except KeyError:
             self.tasks[plan_id] = []
 
         try:
-            self.dependencies[plan_id].append(dependencies)
+            self.dependencies[plan_id].update(dependencies)
         except KeyError:
             self.dependencies[plan_id] = []
+
 
     def trigger_execution(self):
         return 0
