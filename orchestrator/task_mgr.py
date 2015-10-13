@@ -9,5 +9,5 @@ class TaskManager:
         self.__dict__ = self.__shared_state
 
 
-    def execute(self, tasks, dependencies):
+    def execute_tasks(self, plan_id, tasks, dependencies):
         return 0

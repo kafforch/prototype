@@ -36,12 +36,12 @@ class PlanManager:
 
         try:
             len(plan['tasks']) >= 0
-        except:
+        except KeyError:
             plan['tasks'] = []
 
         try:
             len(plan['dependencies']) >= 0
-        except:
+        except KeyError:
             plan['dependencies'] = []
 
         self.store(plan_id, plan)
@@ -51,11 +51,7 @@ class PlanManager:
     def execute_plans(self):
         started_plan_ids = []
         for plan in self.plans.values():
-            if plan["plan_state"] == 'INITIAL':
-                self.execute_plan(plan['plan_id'])
-                started_plan_ids.append(plan['plan_id'])
-
-        return started_plan_ids
+             self.execute_plan(plan['plan_id'])
 
 
     def execute_plan(self, plan_id):
@@ -63,4 +59,4 @@ class PlanManager:
             if plan['plan_id'] == plan_id and plan["plan_state"] == 'INITIAL':
                 plan['plan_state'] = 'RUNNING'
                 _task_mgr = task_mgr.TaskManager()
-                _task_mgr.execute(plan['tasks'], plan['dependencies'])
+                _task_mgr.execute_tasks(plan['plan_id'], plan['tasks'], plan['dependencies'])
