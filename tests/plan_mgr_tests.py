@@ -1,7 +1,7 @@
 import unittest
 from orchestrator import orchestrator, plan_mgr
 
-class OrchTest(unittest.TestCase):
+class PlanManagerTest(unittest.TestCase):
 
     def test_simple_json_parsing(self):
         parsed = orchestrator._parse_json('{"test" :"123"}')

@@ -55,8 +55,12 @@ class PlanManager:
 
     def execute_plan(self, plan):
 
+        _task_mgr = task_mgr.TaskManager()
+
         # Start everything in INITIAL state
         if plan["plan_state"] == 'INITIAL':
             plan['plan_state'] = 'RUNNING'
-            _task_mgr = task_mgr.TaskManager()
-            _task_mgr.execute_tasks(plan['plan_id'], plan['tasks'], plan['dependencies'])
+            _task_mgr.submit_tasks(plan['plan_id'], plan['tasks'], plan['dependencies'])
+
+        # Trigger task execution
+        _task_mgr.trigger_execution()
