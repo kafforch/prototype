@@ -37,9 +37,11 @@ class TaskManager:
         except KeyError:
             self.dependencies[plan_id] = dependencies
 
+
     def purge_all_tasks(self):
         self.tasks = {}
         self.dependencies = {}
+
 
     def execute_all_tasks(self):
         return 0
