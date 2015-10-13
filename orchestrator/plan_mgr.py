@@ -49,14 +49,14 @@ class PlanManager:
 
 
     def execute_plans(self):
-        started_plan_ids = []
         for plan in self.plans.values():
-             self.execute_plan(plan['plan_id'])
+             self.execute_plan(plan)
 
 
-    def execute_plan(self, plan_id):
-        for plan in self.plans.values():
-            if plan['plan_id'] == plan_id and plan["plan_state"] == 'INITIAL':
-                plan['plan_state'] = 'RUNNING'
-                _task_mgr = task_mgr.TaskManager()
-                _task_mgr.execute_tasks(plan['plan_id'], plan['tasks'], plan['dependencies'])
+    def execute_plan(self, plan):
+
+        # Start everything in INITIAL state
+        if plan["plan_state"] == 'INITIAL':
+            plan['plan_state'] = 'RUNNING'
+            _task_mgr = task_mgr.TaskManager()
+            _task_mgr.execute_tasks(plan['plan_id'], plan['tasks'], plan['dependencies'])
