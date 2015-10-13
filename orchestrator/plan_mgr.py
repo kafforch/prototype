@@ -25,7 +25,9 @@ class PlanManager:
         return self.__shared_state['plans']
 
 
-    def purge_plans(self):
+    def purge_ll_plans_and_tasks(self):
+        _task_mgr = task_mgr.TaskManager()
+        _task_mgr.purge_all_tasks()
         self.plans = {}
 
 
@@ -48,9 +50,15 @@ class PlanManager:
         return plan_id
 
 
-    def execute_plans(self):
+    def execute_all_plans(self):
+
+        _task_mgr = task_mgr.TaskManager()
+
         for plan in self.plans.values():
              self.execute_plan(plan)
+
+        # Trigger task execution
+        _task_mgr.execute_all_tasks()
 
 
     def execute_plan(self, plan):
@@ -62,5 +70,3 @@ class PlanManager:
             plan['plan_state'] = 'RUNNING'
             _task_mgr.submit_tasks(plan['plan_id'], plan['tasks'], plan['dependencies'])
 
-        # Trigger task execution
-        _task_mgr.trigger_execution()

@@ -14,14 +14,14 @@ def get_plan(plan_id):
     _plan_mgr = plan_mgr.PlanManager()
     return _plan_mgr.plans[plan_id]
 
-def get_plans():
+def get_all_plans():
     _plan_mgr = plan_mgr.PlanManager()
     return _plan_mgr.get_plans()
 
-def execute_plans():
+def execute_all_plans():
     _plan_mgr = plan_mgr.PlanManager()
-    return _plan_mgr.execute_plans()
+    return _plan_mgr.execute_all_plans()
 
-def purge_plans():
+def purge_all_plans_and_tasks():
     _plan_mgr = plan_mgr.PlanManager()
-    _plan_mgr.purge_plans()
+    _plan_mgr.purge_ll_plans_and_tasks()
