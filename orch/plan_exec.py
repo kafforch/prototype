@@ -22,14 +22,21 @@ class PlanExec:
         True
 
 
+    def task_complete(self, id, event, data):
+        self.plan_repo.set_task_complete(data['plan_id'], data['task_id'])
+
+
     def execute_task(self, plan_id, task_id, callback=None):
         task_name = self.plan_repo.get_task_name(plan_id, task_id)
 
-        # subscribe to get notified on task completion
+        # create subscription to update task status to complete
+        self.event_mgr.subscribe("plan_exec", "END_TASK", self.task_complete)
+
+        # subscribe to get notified on task completion with customer provided callback
         if callback:
-            self.event_mgr.subscribe("plan_exec", "END_TASK", callback)
+            self.event_mgr.subscribe("custom_callback", "END_TASK", callback)
         else:
-            self.event_mgr.subscribe("plan_exec", "END_TASK", self.empty_callback)
+            self.event_mgr.subscribe("custom_callback", "END_TASK", self.empty_callback)
 
         self.event_mgr.publish(data=dict(
                                         plan_id=plan_id,

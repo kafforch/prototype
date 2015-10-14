@@ -17,8 +17,14 @@ class PlanRepo:
         self.plans.append(plan)
         return plan_id
 
+
+    def set_task_complete(self, plan_id, task_id):
+        True
+
+
     def get_ready_tasks_for_plan(self, plan_id):
         return [1,2,3]
+
 
     def get_task_name(self, plan_id, task_id):
         return 12
