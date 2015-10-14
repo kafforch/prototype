@@ -9,6 +9,7 @@ class Orchestrator:
         self.plan_exec = kwargs['plan_exec']
         self.plan_parser = kwargs['plan_parser']
 
+
     def submit_plan_for_execution(self, plan_json):
         '''
         Executes submitted plan.
@@ -25,5 +26,4 @@ class Orchestrator:
         plan = self.plan_parser.parse_plan_json(plan_json)
         plan_id = self.plan_repo.save_plan(plan)
         self.plan_exec.execute_plan(plan_id)
-
         return plan_id
