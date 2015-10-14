@@ -15,14 +15,14 @@ class EventManager:
                 subscriber["func"](subscriber["id"], event, data)
 
 
-    def subscribe(self, id, event, func):
+    def subscribe(self, sub_id, event, func):
         subscription = dict(
-            id=id,
+            id=sub_id,
             event=event,
             func=func
         )
         for subscriber in self.subscribers:
-            if subscriber["id"] == id and subscriber["event"] == event:
+            if subscriber["id"] == sub_id and subscriber["event"] == event:
                 return
 
         self.subscribers.append(subscription)

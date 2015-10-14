@@ -8,7 +8,7 @@ class Orchestrator:
         self.plan_repo = kwargs['plan_repo']
         self.plan_exec = kwargs['plan_exec']
 
-    def submit_plan_for_execution(self, plan_json):
+    def submit_plan_for_execution(self, plan_json, complete_callback):
         '''
         Executes submitted plan.
 
@@ -22,6 +22,6 @@ class Orchestrator:
         '''
 
         plan_id = self.plan_repo.save_plan(plan_json)
-        self.plan_exec.execute_plan(plan_id)
+        self.plan_exec.execute_plan(plan_id, complete_callback)
 
         return plan_id
