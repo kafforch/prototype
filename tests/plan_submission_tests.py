@@ -27,14 +27,11 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
         def callback(id, event, data):
             print "Received event {0} for id={1} with data {2}".format(event, id, data)
             print "Sending complete notification"
-            self.event_mgr.publish("END_TASK", dict(
-                test1=444,
-                test3=555
-            ))
+            self.event_mgr.publish("END_TASK", data)
 
         # simple callback on completion
         def callback_complete(id, event, data):
-            print "Received event {0} for id={1} with data {2}".format(event, id, data)
+            print "Task {0} of plan {1} is complete".format(data['task_id'], data['plan_id'])
 
         self.event_mgr.subscribe("123456", "START_TASK", callback)
 
