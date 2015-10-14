@@ -2,6 +2,7 @@ import unittest
 
 from orch import orchestrator, plan_parser, plan_exec, plan_repo, event_mgr
 
+
 class PlanSubmissionTestsInit(unittest.TestCase):
     def setUp(self):
         self.plan_parser = plan_parser.PlanParser()
@@ -21,6 +22,7 @@ class PlanSubmissionTestsInit(unittest.TestCase):
             plan_repo=self.plan_repo,
             plan_exec=self.plan_exec,
         )
+
 
 class PlanSubmissionTests(PlanSubmissionTestsInit):
 
