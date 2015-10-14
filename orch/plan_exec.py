@@ -32,6 +32,9 @@ class PlanExec:
         '''
         self.plan_repo.set_task_complete(data['plan_id'], data['task_id'])
 
+        if self.plan_repo.are_all_tasks_complete(data['plan_id']):
+            self.plan_repo.set_plan_complete(data['plan_id'])
+
 
     def execute_task(self, plan_id, task_id, callback=None):
         task_name = self.plan_repo.get_task_name(plan_id, task_id)

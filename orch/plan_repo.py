@@ -33,3 +33,12 @@ class PlanRepo:
     def get_task_name(self, plan_id, task_id):
         # TODO implement this method
         return 12
+
+
+    def are_all_tasks_complete(self, plan_id):
+        # TODO implement this method
+        False
+
+    def set_plan_complete(self, plan_id):
+        # TODO implement this method
+        True
