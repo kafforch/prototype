@@ -33,12 +33,15 @@ class PlanRepo:
         :return:
         '''
         # TODO implement this method
-        return [1,2,3]
+        return ["1","2","3"]
 
 
     def get_task_name(self, plan_id, task_id):
-        # TODO implement this method
-        return 12
+        for plan in self.plans:
+            if self.plan_parser.get_plan_id(plan) == plan_id:
+                for task in self.plan_parser.get_tasks(plan):
+                    if self.plan_parser.task_get_id(task) == task_id:
+                        return self.plan_parser.task_get_name(task)
 
 
     def are_all_tasks_complete(self, plan_id):
