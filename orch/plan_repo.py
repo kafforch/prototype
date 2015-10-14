@@ -26,6 +26,12 @@ class PlanRepo:
 
 
     def get_ready_tasks_for_plan(self, plan_id):
+        '''
+        Returns tasks for plan_id that are ready for execution.
+
+        :param plan_id:
+        :return:
+        '''
         # TODO implement this method
         return [1,2,3]
 
