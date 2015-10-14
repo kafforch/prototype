@@ -15,7 +15,7 @@ class EventManagerTests(EventManagerTestsBase):
 
         # callback with correct invocation checks
         def callback(id, event, data):
-            print "Invoked callback for id=%s" % id
+            #print "Invoked callback for id=%s" % id
             self.assertEqual(event, "START")
             self.assertDictEqual(data, dict(
                 data1=123,
