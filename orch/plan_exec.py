@@ -17,12 +17,19 @@ class PlanExec:
         for task_id in ready_task_ids:
             self.execute_task(plan_id, task_id, complete_callback)
 
-
-    def empty_callback(self, a1, a2, a3):
+    # Empty callback
+    def _empty_callback(self, a1, a2, a3):
         True
 
 
     def task_complete(self, id, event, data):
+        '''
+        Callback on completed events. Sets the completed task in the plan and checks if the plan can be marked completed.
+        :param id: Subscriber id
+        :param event: Event pubslished
+        :param data: Dictionary with event data
+        :return:
+        '''
         self.plan_repo.set_task_complete(data['plan_id'], data['task_id'])
 
 
@@ -36,7 +43,7 @@ class PlanExec:
         if callback:
             self.event_mgr.subscribe("custom_callback", "END_TASK", callback)
         else:
-            self.event_mgr.subscribe("custom_callback", "END_TASK", self.empty_callback)
+            self.event_mgr.subscribe("custom_callback", "END_TASK", self._empty_callback)
 
         self.event_mgr.publish(data=dict(
                                         plan_id=plan_id,
