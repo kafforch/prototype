@@ -12,7 +12,7 @@ class EventManager:
     def publish(self, event, data):
         for subscriber in self.subscribers:
             if subscriber["event"] == event:
-                subscriber["func"](event, data)
+                subscriber["func"](subscriber["id"], event, data)
 
 
     def subscribe(self, id, event, func):
@@ -21,6 +21,10 @@ class EventManager:
             event=event,
             func=func
         )
+        for subscriber in self.subscribers:
+            if subscriber["id"] == id:
+                return
+
         self.subscribers.append(subscription)
 
 

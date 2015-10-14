@@ -12,7 +12,7 @@ class EventManagerTests(EventManagerTestsBase):
 
         self.assertEqual(len(self.event_mgr.subscribers), 0)
 
-        def callback(event, data):
+        def callback(id, event, data):
             self.assertEqual(event, "START")
             self.assertDictEqual(data, dict(
                 data1=123,
@@ -20,16 +20,26 @@ class EventManagerTests(EventManagerTestsBase):
             ))
 
         self.event_mgr.subscribe("123", "START", callback)
+        self.event_mgr.subscribe("123", "START", callback)
 
         self.assertEqual(len(self.event_mgr.subscribers), 1)
+
+        self.event_mgr.subscribe("1234", "START", callback)
+
+        self.assertEqual(len(self.event_mgr.subscribers), 2)
 
         self.event_mgr.publish("START", dict(
             data1=123,
             data2="test000"
         ))
 
-        self.assertEqual(len(self.event_mgr.subscribers), 1)
+        self.assertEqual(len(self.event_mgr.subscribers), 2)
 
         self.event_mgr.unsubscribe("123", "START")
+        self.event_mgr.unsubscribe("123", "START")
+
+        self.assertEqual(len(self.event_mgr.subscribers), 1)
+
+        self.event_mgr.unsubscribe("1234", "START")
 
         self.assertEqual(len(self.event_mgr.subscribers), 0)
