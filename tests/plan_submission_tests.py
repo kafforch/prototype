@@ -1,11 +1,15 @@
 import unittest
 
-from orch import orchestrator, plan_parser, plan_exec, plan_repo, task_exec
+from orch import orchestrator, plan_parser, plan_exec, plan_repo, task_exec, event_mgr
 
 class PlanSubmissionTestsInit(unittest.TestCase):
     def setUp(self):
         self.plan_repo = plan_repo.PlanRepo()
-        self.task_exec = task_exec.TaskExec()
+        self.event_mgr = event_mgr.EventManager()
+        self.task_exec = task_exec.TaskExec(
+            plan_repo = self.plan_repo,
+            event_mgr = self.event_mgr
+        )
         self.plan_exec = plan_exec.PlanExec(
             plan_repo=self.plan_repo,
             task_exec=self.task_exec

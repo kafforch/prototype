@@ -12,9 +12,9 @@ class PlanExec:
         :return:
         '''
 
-        ready_tasks = self.plan_repo.get_ready_tasks_for_plan(plan_id)
+        ready_task_ids = self.plan_repo.get_ready_tasks_for_plan(plan_id)
 
-        for task in ready_tasks:
-            self.task_exec.execute_task(task)
+        for task_id in ready_task_ids:
+            self.task_exec.execute_task(plan_id, task_id)
 
 
