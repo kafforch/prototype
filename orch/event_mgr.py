@@ -22,7 +22,7 @@ class EventManager:
             func=func
         )
         for subscriber in self.subscribers:
-            if subscriber["id"] == id:
+            if subscriber["id"] == id and subscriber["event"] == event:
                 return
 
         self.subscribers.append(subscription)
