@@ -31,15 +31,15 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
 
         # callback to simulate a fragment work
         def callback(id, event, data):
-            print "Received event {0} for id={1} with data {2}".format(event, id, data)
-            print "Sending complete notification"
+            #print "Received event {0} for id={1} with data {2}".format(event, id, data)
+            #print "Sending complete notification"
             self.assertEqual(data['task_name'], 12)
             self.assertIn(data['task_id'], [1,2,3])
             self.event_mgr.publish("END_TASK", data)
 
         # simple callback on completion
         def callback_complete(id, event, data):
-            print "Task {0} of plan {1} is complete".format(data['task_id'], data['plan_id'])
+            #print "Task {0} of plan {1} is complete".format(data['task_id'], data['plan_id'])
             self.assertIn(data['task_id'], [1,2,3])
             self.assertEqual(data['task_name'], 12)
 
