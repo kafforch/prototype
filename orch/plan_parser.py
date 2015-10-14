@@ -1,4 +1,5 @@
 import json
+import uuid
 
 
 class PlanParser:
@@ -7,9 +8,10 @@ class PlanParser:
         return json.loads(plan_json)
 
     def set_plan_id(self, plan, plan_id):
-        new_plan = dict(plan)
-        new_plan["plan_id"] = plan_id
-        return new_plan
+        plan["plan_id"] = plan_id
+
+    def set_plan_status_as_new(self, plan):
+        plan["plan_status"] = "INITIAL"
 
     def get_plan_id(self, plan):
         return plan["plan_id"]
@@ -22,3 +24,9 @@ class PlanParser:
 
     def task_get_name(self, task):
         return task["name"]
+
+    def get_id(self):
+        return str(uuid.uuid4())
+
+    def set_plan_complete(self, plan):
+        plan["plan_status"] = "COMPLETE"

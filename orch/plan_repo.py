@@ -1,6 +1,3 @@
-import uuid
-
-
 class PlanRepo:
 
     def __init__(self, **kwargs):
@@ -8,14 +5,11 @@ class PlanRepo:
         self.plans = []
 
 
-    def get_id(self):
-        return uuid.uuid4()
-
-
-    def save_plan(self, plan_json):
+    def save_new_plan(self, plan_json):
         plan = self.plan_parser.parse_plan_json(plan_json)
-        plan_id = str(self.get_id())
-        plan = self.plan_parser.set_plan_id(plan, plan_id)
+        plan_id = self.plan_parser.get_id()
+        self.plan_parser.set_plan_id(plan, plan_id)
+        self.plan_parser.set_plan_status_as_new(plan)
         self.plans.append(plan)
         return plan_id
 
@@ -49,5 +43,5 @@ class PlanRepo:
         False
 
     def set_plan_complete(self, plan_id):
-        # TODO implement this method
-        True
+        plan = [x for x in self.plans if self.plan_parser.get_plan_id(x) == plan_id][0]
+        self.plan_parser.set_plan_complete(plan)
