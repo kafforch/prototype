@@ -28,6 +28,7 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
             print "Received event {0} for id={1} with data {2}".format(event, id, data)
             print "Sending complete notification"
             self.assertEqual(data['task_name'], 12)
+            self.assertIn(data['task_id'], [1,2,3])
             self.event_mgr.publish("END_TASK", data)
 
         # simple callback on completion
