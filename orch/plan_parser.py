@@ -30,3 +30,12 @@ class PlanParser:
 
     def set_plan_complete(self, plan):
         plan["plan_status"] = "COMPLETE"
+
+    def is_task_complete(self, task):
+        return task['task_status'] == "COMPLETE"
+
+    def set_task_as_complete(self, task):
+        task['task_status'] = "COMPLETE"
+
+    def set_task_as_new(self, task):
+        task['task_status'] = "INITIAL"
