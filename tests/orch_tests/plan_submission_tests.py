@@ -29,10 +29,7 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
 
     def test_plan_submission_for_plan_02(self):
         '''
-        Test with parallel tasks
-          -2-
-        1-   -4
-          -3-
+
         :return:
         '''
         plan_json = open('tests/json/plan_02.json', 'r').read()
