@@ -1,9 +1,11 @@
 import unittest
-from orch import event_mgr
+
+from util import event_mgr
+
 
 class EventManagerTestsBase(unittest.TestCase):
     def setUp(self):
-        self.event_mgr = event_mgr.EventManager()
+        self.event_mgr = event_mgr.PubSub()
 
 
 class EventManagerTests(EventManagerTestsBase):
