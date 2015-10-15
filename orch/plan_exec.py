@@ -14,8 +14,13 @@ class PlanExec:
 
         ready_task_ids = self.plan_repo.get_ready_tasks_for_plan(plan_id)
 
+        self.event_mgr.publish(data=dict(
+                                        plan_id=plan_id
+                                    ), event="START_PLAN" )
+
         for task_id in ready_task_ids:
             self.execute_task(plan_id, task_id, complete_callback)
+
 
     # Empty callback
     def _empty_callback(self, a1, a2, a3):
@@ -34,6 +39,9 @@ class PlanExec:
 
         if self.plan_repo.are_all_tasks_complete(data['plan_id']):
             self.plan_repo.set_plan_complete(data['plan_id'])
+            self.event_mgr.publish(data=dict(
+                                        plan_id=data["plan_id"]
+                                    ), event="END_PLAN" )
 
 
     def execute_task(self, plan_id, task_id, callback=None):

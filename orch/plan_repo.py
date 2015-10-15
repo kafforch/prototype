@@ -19,7 +19,12 @@ class PlanRepo:
 
 
     def set_task_complete(self, plan_id, task_id):
-        plan = self.plans
+        plan = self.get_plan_by_id(plan_id)
+        tasks = self.plan_parser.get_tasks(plan)
+        for task in tasks:
+            if task_id == self.plan_parser.get_task_id(task):
+                self.plan_parser.set_task_as_complete(task)
+                return
 
 
     def get_ready_tasks_for_plan(self, plan_id):
@@ -45,7 +50,7 @@ class PlanRepo:
         plan = self.get_plan_by_id(plan_id)
         tasks = self.plan_parser.get_tasks(plan)
         for task in tasks:
-            if self.plan_parser.is_task_complete(task):
+            if not self.plan_parser.is_task_complete(task):
                 return False
         return True
 

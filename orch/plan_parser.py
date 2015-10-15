@@ -39,3 +39,6 @@ class PlanParser:
 
     def set_task_as_new(self, task):
         task['task_status'] = "INITIAL"
+
+    def get_task_id(self, task):
+        return task["@id"]
