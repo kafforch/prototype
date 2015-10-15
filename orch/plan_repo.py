@@ -18,6 +18,15 @@ class PlanRepo:
         return plan_id
 
 
+    def set_task_running(self, plan_id, task_id):
+        plan = self.get_plan_by_id(plan_id)
+        tasks = self.plan_parser.get_tasks(plan)
+        for task in tasks:
+            if task_id == self.plan_parser.get_task_id(task):
+                self.plan_parser.set_task_as_running(task)
+                return
+
+
     def set_task_complete(self, plan_id, task_id):
         plan = self.get_plan_by_id(plan_id)
         tasks = self.plan_parser.get_tasks(plan)

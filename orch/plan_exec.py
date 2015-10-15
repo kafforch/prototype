@@ -56,6 +56,8 @@ class PlanExec:
         else:
             self.event_mgr.subscribe("custom_callback", "END_TASK", self._empty_callback)
 
+        self.plan_repo.set_task_running(plan_id, task_id)
+
         self.event_mgr.publish(data=dict(
                                         plan_id=plan_id,
                                         task_id=task_id,

@@ -40,5 +40,8 @@ class PlanParser:
     def set_task_as_new(self, task):
         task['task_status'] = "INITIAL"
 
+    def set_task_as_running(self, task):
+        task['task_status'] = "RUNNING"
+
     def get_task_id(self, task):
         return task["@id"]
