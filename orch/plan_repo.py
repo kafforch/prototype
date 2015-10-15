@@ -68,5 +68,6 @@ class PlanRepo:
         plan = self.get_plan_by_id(plan_id)
         self.plan_parser.set_plan_as_complete(plan)
 
+
     def get_plan_by_id(self, plan_id):
         return [x for x in self.plans if self.plan_parser.get_plan_id(x) == plan_id][0]
