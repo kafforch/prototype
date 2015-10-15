@@ -1,4 +1,6 @@
+import random
 import unittest
+import time
 
 from orch import orchestrator, plan_parser, plan_exec, plan_repo
 from util import pubsub
@@ -37,6 +39,12 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
         # callback to simulate a fragment work
         def callback(subs_id, event, data):
             print "Received event {0} for id={1} with data {2}".format(event, subs_id, data)
+
+            # pausing and randomness
+            sleep_interval = random.randint(1,5)
+            print "Sleeping for {0}".format(sleep_interval)
+            time.sleep(sleep_interval)
+
             print "Sending complete notification for task {0}".format(data['task_id'])
             self.pubsub.publish("END_TASK", data)
 
