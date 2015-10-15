@@ -1,8 +1,8 @@
 class PlanExec:
 
-    def __init__(self, **kwargs):
-        self.plan_repo = kwargs['plan_repo']
-        self.event_mgr = kwargs['event_mgr']
+    def __init__(self, plan_repo, pubsub, **kwargs):
+        self.plan_repo = plan_repo
+        self.pubsub = pubsub
 
     def execute_plan(self, plan_id, complete_callback=None):
         '''
@@ -14,17 +14,12 @@ class PlanExec:
 
         ready_task_ids = self.plan_repo.initial_get_ready_tasks_for_plan(plan_id)
 
-        self.event_mgr.publish(data=dict(
+        self.pubsub.publish(data=dict(
                                         plan_id=plan_id
                                     ), event="START_PLAN" )
 
         for task_id in ready_task_ids:
             self.execute_task(plan_id, task_id, complete_callback)
-
-
-    # Empty callback
-    def _empty_callback(self, a1, a2, a3):
-        True
 
 
     def task_complete(self, id, event, data):
@@ -37,28 +32,37 @@ class PlanExec:
         '''
         self.plan_repo.set_task_complete(data['plan_id'], data['task_id'])
 
+        # unsubscribe
+        self.pubsub.unsubscribe("task-{0}-{1}".format(data["plan_id"], data["task_id"]), "END_TASK")
+
         if self.plan_repo.are_all_tasks_complete(data['plan_id']):
             self.plan_repo.set_plan_as_complete(data['plan_id'])
-            self.event_mgr.publish(data=dict(
+            self.pubsub.publish(data=dict(
                                         plan_id=data["plan_id"]
                                     ), event="END_PLAN" )
+        else:
+            self.execute_dependent_tasks(data['plan_id'], data['task_id'], self.task_complete)
+
+
+    def execute_dependent_tasks(self, plan_id, task_id, callback):
+        for dep_task_id in self.plan_repo.get_ready_dependent_tasks(plan_id, task_id):
+            print "about to do {0}".format(dep_task_id)
+            self.execute_task(plan_id, dep_task_id, callback)
 
 
     def execute_task(self, plan_id, task_id, callback=None):
         task_name = self.plan_repo.get_task_name(plan_id, task_id)
 
         # create subscription to update task status to complete
-        self.event_mgr.subscribe("plan_exec", "END_TASK", self.task_complete)
+        self.pubsub.subscribe("task-{0}-{1}".format(plan_id, task_id), "END_TASK", self.task_complete)
 
         # subscribe to get notified on task completion with customer provided callback
         if callback:
-            self.event_mgr.subscribe("custom_callback", "END_TASK", callback)
-        else:
-            self.event_mgr.subscribe("custom_callback", "END_TASK", self._empty_callback)
+            self.pubsub.subscribe("custom_callback", "END_TASK", callback)
 
         self.plan_repo.set_task_running(plan_id, task_id)
 
-        self.event_mgr.publish(data=dict(
+        self.pubsub.publish(data=dict(
                                         plan_id=plan_id,
                                         task_id=task_id,
                                         task_name=task_name

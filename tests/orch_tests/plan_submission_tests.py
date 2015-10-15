@@ -12,11 +12,11 @@ class PlanSubmissionTestsInit(unittest.TestCase):
             plan_parser=self.plan_parser
         )
 
-        self.event_mgr = pubsub.PubSub()
+        self.pubsub = pubsub.PubSub()
 
         self.plan_exec = plan_exec.PlanExec(
             plan_repo=self.plan_repo,
-            event_mgr = self.event_mgr
+            pubsub = self.pubsub
         )
 
         self.orchestrator = orchestrator.Orchestrator(
@@ -36,7 +36,7 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
             print "Sending complete notification for task {0}".format(data['task_id'])
             self.assertIn(data['task_name'], ["123", "345", "999"])
             self.assertIn(data['task_id'], ["1","2","3"])
-            self.event_mgr.publish("END_TASK", data)
+            self.pubsub.publish("END_TASK", data)
 
         # simple callback on completion
         def callback_complete(id, event, data):
@@ -44,22 +44,22 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
             self.assertIn(data['task_id'], ["1","2","3"])
             self.assertIn(data['task_name'], ["123", "345", "999"])
 
-        self.event_mgr.subscribe("123456", "START_TASK", callback)
+        self.pubsub.subscribe("123456", "START_TASK", callback)
 
         def callback_plan_complete(id, event, data):
             print "Plan {0} is complete".format(data['plan_id'])
-            self.assertEqual(len(self.event_mgr.subscribers), 5)
-            self.event_mgr.unsubscribe("123456", "START_TASK")
-            self.event_mgr.unsubscribe("00001", "END_PLAN")
-            self.event_mgr.unsubscribe("00001a", "START_PLAN")
-            self.assertEqual(len(self.event_mgr.subscribers), 2)
+            self.assertEqual(len(self.pubsub.subscribers), 4)
+            self.pubsub.unsubscribe("123456", "START_TASK")
+            self.pubsub.unsubscribe("00001", "END_PLAN")
+            self.pubsub.unsubscribe("00001a", "START_PLAN")
+            self.assertEqual(len(self.pubsub.subscribers), 1)
 
-        self.event_mgr.subscribe("00001", "END_PLAN", callback_plan_complete)
+        self.pubsub.subscribe("00001", "END_PLAN", callback_plan_complete)
 
         def callback_plan_start(id, event, data):
             print "Plan {0} is starting".format(data['plan_id'])
 
-        self.event_mgr.subscribe("00001a", "START_PLAN", callback_plan_start)
+        self.pubsub.subscribe("00001a", "START_PLAN", callback_plan_start)
 
         # Submission. All subscriptions happen before this
         self.orchestrator.submit_plan_for_execution(plan_json, callback_complete)

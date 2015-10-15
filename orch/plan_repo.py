@@ -69,6 +69,26 @@ class PlanRepo:
         return predecessors
 
 
+    def get_ready_dependent_tasks(self, plan_id, task_id):
+        task_ids = []
+        plan = self.get_plan_by_id(plan_id)
+
+        for dependency in self.plan_parser.get_dependencies(plan):
+            if self.plan_parser.get_dependency_from(dependency) == task_id:
+                dep_task_id = self.plan_parser.get_dependency_to(dependency)
+                dep_task = self.get_task_by_id(plan, dep_task_id)
+                if self.plan_parser.is_task_initial(dep_task):
+                    task_ids.append(dep_task_id)
+
+        return task_ids
+
+
+    def get_task_by_id(self, plan, task_id):
+        for task in self.plan_parser.get_tasks(plan):
+            if self.plan_parser.get_task_id(task) == task_id:
+                return task
+
+
     def get_task_name(self, plan_id, task_id):
         for plan in self.plans:
             if self.plan_parser.get_plan_id(plan) == plan_id:
