@@ -46,7 +46,6 @@ class PlanExec:
 
     def execute_dependent_tasks(self, plan_id, task_id, callback):
         for dep_task_id in self.plan_repo.get_ready_dependent_tasks(plan_id, task_id):
-            print "about to do {0}".format(dep_task_id)
             self.execute_task(plan_id, dep_task_id, callback)
 
 
