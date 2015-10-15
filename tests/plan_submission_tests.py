@@ -1,7 +1,7 @@
 import unittest
 
 from orch import orchestrator, plan_parser, plan_exec, plan_repo
-from util import event_mgr
+from util import pubsub
 
 
 class PlanSubmissionTestsInit(unittest.TestCase):
@@ -12,7 +12,7 @@ class PlanSubmissionTestsInit(unittest.TestCase):
             plan_parser=self.plan_parser
         )
 
-        self.event_mgr = event_mgr.PubSub()
+        self.event_mgr = pubsub.PubSub()
 
         self.plan_exec = plan_exec.PlanExec(
             plan_repo=self.plan_repo,

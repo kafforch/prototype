@@ -1,11 +1,11 @@
 import unittest
 
-from util import event_mgr
+from util import pubsub
 
 
 class EventManagerTestsBase(unittest.TestCase):
     def setUp(self):
-        self.event_mgr = event_mgr.PubSub()
+        self.event_mgr = pubsub.PubSub()
 
 
 class EventManagerTests(EventManagerTestsBase):
