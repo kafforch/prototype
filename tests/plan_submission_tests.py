@@ -20,18 +20,18 @@ class PlanSubmissionTestsInit(unittest.TestCase):
 
         self.orchestrator = orchestrator.Orchestrator(
             plan_repo=self.plan_repo,
-            plan_exec=self.plan_exec,
+            plan_exec=self.plan_exec
         )
 
 
 class PlanSubmissionTests(PlanSubmissionTestsInit):
 
-    def test_plan_submission(self):
+    def test_plan_submission_for_plan_01(self):
         plan_json = open('tests/json/plan_01.json', 'r').read()
 
         # callback to simulate a fragment work
-        def callback(id, event, data):
-            print "Received event {0} for id={1} with data {2}".format(event, id, data)
+        def callback(subs_id, event, data):
+            print "Received event {0} for id={1} with data {2}".format(event, subs_id, data)
             print "Sending complete notification for task {0}".format(data['task_id'])
             self.assertIn(data['task_name'], ["123", "345", "999"])
             self.assertIn(data['task_id'], ["1","2","3"])
