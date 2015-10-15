@@ -41,7 +41,7 @@ class PlanRepo:
         Returns task_ids for plan_id that are ready for execution.
 
         :param plan_id:
-        :return:
+        :return: task_ids of tasks ready to run.
         '''
         # TODO implement this method
         return ["2","3","1"]
@@ -70,4 +70,8 @@ class PlanRepo:
 
 
     def get_plan_by_id(self, plan_id):
-        return [x for x in self.plans if self.plan_parser.get_plan_id(x) == plan_id][0]
+        matching_plans = [x for x in self.plans if self.plan_parser.get_plan_id(x) == plan_id]
+        if len(matching_plans):
+            return matching_plans[0]
+        else:
+            raise ValueError("Plan {0} not found".format(plan_id))
