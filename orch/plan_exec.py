@@ -12,7 +12,7 @@ class PlanExec:
         :return:
         '''
 
-        ready_task_ids = self.plan_repo.get_ready_tasks_for_plan(plan_id)
+        ready_task_ids = self.plan_repo.initial_get_ready_tasks_for_plan(plan_id)
 
         self.event_mgr.publish(data=dict(
                                         plan_id=plan_id

@@ -34,6 +34,9 @@ class PlanParser:
     def is_task_complete(self, task):
         return task['task_status'] == "COMPLETE"
 
+    def is_task_initial(self, task):
+        return task['task_status'] == "INITIAL"
+
     def set_task_as_complete(self, task):
         task['task_status'] = "COMPLETE"
 
@@ -45,3 +48,12 @@ class PlanParser:
 
     def get_task_id(self, task):
         return task["@id"]
+
+    def get_dependencies(self, plan):
+        return plan["dependencies"]
+
+    def get_dependency_from(self, dep):
+        return dep["from"]
+
+    def get_dependency_to(self, dep):
+        return dep["to"]
