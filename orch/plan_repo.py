@@ -38,7 +38,7 @@ class PlanRepo:
 
     def initial_get_ready_tasks_for_plan(self, plan_id):
         '''
-        Returns task_ids for plan_id that are ready for execution.
+        Returns task_ids for plan_id that are ready for execution initially.
 
         :param plan_id:
         :return: task_ids of tasks ready to run.
@@ -69,6 +69,18 @@ class PlanRepo:
         return predecessors
 
 
+    def all_dependencies_complete_for_task(self, plan, task_id):
+        dependencies = self.plan_parser.get_dependencies(plan)
+        task = self.get_task_by_id(plan, task_id)
+        for dependency in dependencies:
+            from_task_id = self.plan_parser.get_dependency_from(dependency)
+            from_task = self.get_task_by_id(plan, from_task_id)
+            if self.plan_parser.get_dependency_to(dependency) == task_id and \
+                not self.plan_parser.is_task_complete(from_task):
+                return False
+
+        return True
+
     def get_ready_dependent_tasks(self, plan_id, task_id):
         task_ids = []
         plan = self.get_plan_by_id(plan_id)
@@ -77,7 +89,8 @@ class PlanRepo:
             if self.plan_parser.get_dependency_from(dependency) == task_id:
                 dep_task_id = self.plan_parser.get_dependency_to(dependency)
                 dep_task = self.get_task_by_id(plan, dep_task_id)
-                if self.plan_parser.is_task_initial(dep_task):
+                if self.plan_parser.is_task_initial(dep_task) and \
+                        self.all_dependencies_complete_for_task(plan, dep_task_id):
                     task_ids.append(dep_task_id)
 
         return task_ids
