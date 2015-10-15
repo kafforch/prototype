@@ -9,7 +9,7 @@ class PlanRepo:
         plan = self.plan_parser.parse_plan_json(plan_json)
         plan_id = self.plan_parser.get_id()
         self.plan_parser.set_plan_id(plan, plan_id)
-        self.plan_parser.set_plan_status_as_new(plan)
+        self.plan_parser.set_plan_as_new(plan)
 
         for task in self.plan_parser.get_tasks(plan):
             self.plan_parser.set_task_as_new(task)
@@ -44,7 +44,7 @@ class PlanRepo:
         :return:
         '''
         # TODO implement this method
-        return ["1","2","3"]
+        return ["2","3","1"]
 
 
     def get_task_name(self, plan_id, task_id):
@@ -64,9 +64,9 @@ class PlanRepo:
         return True
 
 
-    def set_plan_complete(self, plan_id):
+    def set_plan_as_complete(self, plan_id):
         plan = self.get_plan_by_id(plan_id)
-        self.plan_parser.set_plan_complete(plan)
+        self.plan_parser.set_plan_as_complete(plan)
 
     def get_plan_by_id(self, plan_id):
         return [x for x in self.plans if self.plan_parser.get_plan_id(x) == plan_id][0]

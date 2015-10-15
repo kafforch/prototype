@@ -10,7 +10,7 @@ class PlanParser:
     def set_plan_id(self, plan, plan_id):
         plan["plan_id"] = plan_id
 
-    def set_plan_status_as_new(self, plan):
+    def set_plan_as_new(self, plan):
         plan["plan_status"] = "INITIAL"
 
     def get_plan_id(self, plan):
@@ -28,7 +28,7 @@ class PlanParser:
     def get_id(self):
         return str(uuid.uuid4())
 
-    def set_plan_complete(self, plan):
+    def set_plan_as_complete(self, plan):
         plan["plan_status"] = "COMPLETE"
 
     def is_task_complete(self, task):

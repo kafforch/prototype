@@ -38,7 +38,7 @@ class PlanExec:
         self.plan_repo.set_task_complete(data['plan_id'], data['task_id'])
 
         if self.plan_repo.are_all_tasks_complete(data['plan_id']):
-            self.plan_repo.set_plan_complete(data['plan_id'])
+            self.plan_repo.set_plan_as_complete(data['plan_id'])
             self.event_mgr.publish(data=dict(
                                         plan_id=data["plan_id"]
                                     ), event="END_PLAN" )
