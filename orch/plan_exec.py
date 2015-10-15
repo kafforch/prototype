@@ -4,7 +4,7 @@ class PlanExec:
         self.plan_repo = plan_repo
         self.pubsub = pubsub
 
-    def execute_plan(self, plan_id, complete_callback=None):
+    def execute_plan(self, plan_id):
         '''
         Orchestrates execution of the tasks ready for execution.
 
@@ -19,7 +19,7 @@ class PlanExec:
                                     ), event="START_PLAN" )
 
         for task_id in ready_task_ids:
-            self.execute_task(plan_id, task_id, complete_callback)
+            self.execute_task(plan_id, task_id, self.task_complete)
 
 
     def task_complete(self, id, event, data):
