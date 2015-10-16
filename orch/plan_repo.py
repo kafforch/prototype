@@ -45,12 +45,12 @@ class PlanRepo:
         tasks = plan.get_tasks()
 
         for task in tasks:
-            if plan.is_task_initial(task) and len(self.get_ready_tasks_for_plan(plan, task)) == 0:
+            if plan.is_task_initial(task) and len(self.get_ready_tasks_for_plan_task(plan, task)) == 0:
                 task_ids.append(plan.get_task_id(task))
 
         return task_ids
 
-    def get_ready_tasks_for_plan(self, plan, task):
+    def get_ready_tasks_for_plan_task(self, plan, task):
         predecessors = []
         task_id = plan.get_task_id(task)
 
