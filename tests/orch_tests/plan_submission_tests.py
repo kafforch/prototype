@@ -8,10 +8,10 @@ from util import pubsub
 
 class PlanSubmissionTestsInit(unittest.TestCase):
     def setUp(self):
-        self.plan_parser = plan_parser.PlanParser()
+        self.plan_parser = plan_parser
 
         self.plan_repo = plan_repo.PlanRepo(
-            plan_parser=self.plan_parser
+            plan_parser=plan_parser
         )
 
         self.pubsub = pubsub.PubSub()
@@ -30,10 +30,6 @@ class PlanSubmissionTestsInit(unittest.TestCase):
 class PlanSubmissionTests(PlanSubmissionTestsInit):
 
     def test_plan_submission_for_plan_02(self):
-        '''
-
-        :return:
-        '''
         plan_json = open('tests/json/plan_02.json', 'r').read()
 
         # callback to simulate a fragment work
@@ -41,9 +37,9 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
             print "Received event {0} for id={1} with data {2}".format(event, subs_id, data)
 
             # pausing and randomness
-            sleep_interval = random.randint(1,5)
-            print "Sleeping for {0}".format(sleep_interval)
-            time.sleep(sleep_interval)
+            # sleep_interval = random.randint(1,5)
+            # print "Sleeping for {0}".format(sleep_interval)
+            # time.sleep(sleep_interval)
 
             print "Sending complete notification for task {0}".format(data['task_id'])
             self.pubsub.publish("END_TASK", data)

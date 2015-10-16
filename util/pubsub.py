@@ -1,5 +1,4 @@
 class PubSub:
-
     def __init__(self):
 
         # List of dicts. Every element is {
@@ -14,7 +13,6 @@ class PubSub:
             if subscriber["event"] == event:
                 subscriber["func"](subscriber["id"], event, data)
 
-
     def subscribe(self, sub_id, event, func):
         subscription = dict(
             id=sub_id,
@@ -27,10 +25,9 @@ class PubSub:
 
         self.subscribers.append(subscription)
 
-
-    def unsubscribe(self, id, event):
+    def unsubscribe(self, subs_id, event):
         i = 0
         for subscriber in self.subscribers:
-            if subscriber["id"] == id and subscriber["event"] == event:
+            if subscriber["id"] == subs_id and subscriber["event"] == event:
                 self.subscribers.pop(i)
             i += 1
