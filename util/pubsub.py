@@ -6,10 +6,10 @@ class PubSub:
         #                                   "event": EVENTNAME,
         #                                   "func": FUNCTION,
         #                                 }
-        self.subscribers = []
+        self.__subscribers = []
 
     def publish(self, event, data):
-        for subscriber in self.subscribers:
+        for subscriber in self.__subscribers:
             if subscriber["event"] == event:
                 subscriber["func"](subscriber["id"], event, data)
 
@@ -19,15 +19,18 @@ class PubSub:
             event=event,
             func=func
         )
-        for subscriber in self.subscribers:
+        for subscriber in self.__subscribers:
             if subscriber["id"] == sub_id and subscriber["event"] == event:
                 return
 
-        self.subscribers.append(subscription)
+        self.__subscribers.append(subscription)
 
     def unsubscribe(self, subs_id, event):
         i = 0
-        for subscriber in self.subscribers:
+        for subscriber in self.__subscribers:
             if subscriber["id"] == subs_id and subscriber["event"] == event:
-                self.subscribers.pop(i)
+                self.__subscribers.pop(i)
             i += 1
+
+    def get_subscribers(self):
+        return self.__subscribers
