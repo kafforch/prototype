@@ -77,7 +77,7 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
             # print "Received event {0} for id={1} with data {2}".format(event, subs_id, data)
             # print "Sending complete notification for task {0}".format(data['task_id'])
             self.assertIn(data['task_name'], ["123", "345", "999"])
-            self.assertIn(data['task_id'], ["1","2","3"])
+            self.assertIn(data['task_id'], ["1", "2", "3"])
             self.pubsub.publish("END_TASK", data)
 
         # simple callback on completion
