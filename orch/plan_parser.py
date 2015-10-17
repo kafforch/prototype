@@ -54,7 +54,6 @@ def parse_plan_json(plan_json):
 
         def __init__(self):
             self.__plan = json.loads(plan_json)
-            self.tasks = self.get_tasks()
 
         def set_plan_id(self, plan_id):
             self.__plan["plan_id"] = plan_id
