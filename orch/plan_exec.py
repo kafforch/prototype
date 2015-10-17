@@ -1,7 +1,9 @@
+from util import pubsub
+
+
 class PlanExec:
-    def __init__(self, plan_repo, pubsub):
+    def __init__(self, plan_repo):
         self.__plan_repo = plan_repo
-        self.__pubsub = pubsub
 
     def execute_plan(self, plan_id):
         """
@@ -13,14 +15,14 @@ class PlanExec:
 
         ready_task_ids = self.__plan_repo.initial_get_ready_tasks_for_plan(plan_id)
 
-        self.__pubsub.publish(data=dict(
+        pubsub.publish(data=dict(
             plan_id=plan_id
         ), event="START_PLAN")
 
         for task_id in ready_task_ids:
             self.__execute_task(plan_id, task_id, self.__task_complete)
 
-    def __task_complete(self, id, event, data):
+    def __task_complete(self, event, data):
         """
         Callback on completed events. Sets the completed task in the plan and checks if the plan can be marked completed.
         :param id: Subscriber id
@@ -31,11 +33,11 @@ class PlanExec:
         self.__plan_repo.set_task_complete(data['plan_id'], data['task_id'])
 
         # unsubscribe
-        self.__pubsub.unsubscribe("task-{0}-{1}".format(data["plan_id"], data["task_id"]), "END_TASK")
+        pubsub.unsubscribe(self.__task_complete, "END_TASK")
 
         if self.__plan_repo.are_all_tasks_complete(data['plan_id']):
             self.__plan_repo.set_plan_as_complete(data['plan_id'])
-            self.__pubsub.publish(data=dict(
+            pubsub.publish(data=dict(
                 plan_id=data["plan_id"]
             ), event="END_PLAN")
         else:
@@ -49,15 +51,15 @@ class PlanExec:
         task_name = self.__plan_repo.get_task_name(plan_id, task_id)
 
         # create subscription to update task status to complete
-        self.__pubsub.subscribe("task-{0}-{1}".format(plan_id, task_id), "END_TASK", self.__task_complete)
+        pubsub.subscribe("END_TASK", self.__task_complete)
 
         # subscribe to get notified on task completion with customer provided callback
         if callback:
-            self.__pubsub.subscribe("custom_callback", "END_TASK", callback)
+            pubsub.subscribe("END_TASK", callback)
 
         self.__plan_repo.set_task_running(plan_id, task_id)
 
-        self.__pubsub.publish(data=dict(
+        pubsub.publish(data=dict(
             plan_id=plan_id,
             task_id=task_id,
             task_name=task_name

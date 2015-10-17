@@ -1,5 +1,5 @@
 class PlanRepo:
-    def __init__(self, plan_parser, **kwargs):
+    def __init__(self, plan_parser):
         self.__plan_parser = plan_parser
         self.__plans = []
 
