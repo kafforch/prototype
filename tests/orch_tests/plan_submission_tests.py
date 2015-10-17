@@ -47,12 +47,12 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
         self.pubsub.subscribe("123456", "START_TASK", callback)
 
         # simple callback on completion
-        def callback_complete(id, event, data):
+        def callback_complete(subs_id, event, data):
             print "Task {0} of plan {1} is complete".format(data['task_id'], data['plan_id'])
 
         self.pubsub.subscribe("123456", "END_TASK", callback_complete)
 
-        def callback_plan_complete(id, event, data):
+        def callback_plan_complete(subs_id, event, data):
             print "Plan {0} is complete".format(data['plan_id'])
             self.pubsub.unsubscribe("123456", "START_TASK")
             self.pubsub.unsubscribe("00001", "END_PLAN")
@@ -60,7 +60,7 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
 
         self.pubsub.subscribe("00001", "END_PLAN", callback_plan_complete)
 
-        def callback_plan_start(id, event, data):
+        def callback_plan_start(subs_id, event, data):
             print "Plan {0} is starting".format(data['plan_id'])
 
         self.pubsub.subscribe("00001a", "START_PLAN", callback_plan_start)
@@ -81,14 +81,14 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
             self.pubsub.publish("END_TASK", data)
 
         # simple callback on completion
-        def callback_complete(id, event, data):
+        def callback_complete(subs_id, event, data):
             # print "Task {0} of plan {1} is complete".format(data['task_id'], data['plan_id'])
             self.assertIn(data['task_id'], ["1","2","3"])
             self.assertIn(data['task_name'], ["123", "345", "999"])
 
         self.pubsub.subscribe("123456", "START_TASK", callback)
 
-        def callback_plan_complete(id, event, data):
+        def callback_plan_complete(subs_id, event, data):
             # print "Plan {0} is complete".format(data['plan_id'])
             self.assertEqual(len(self.pubsub.get_subscribers()), 4)
             self.pubsub.unsubscribe("123456", "START_TASK")
@@ -98,7 +98,7 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
 
         self.pubsub.subscribe("00001", "END_PLAN", callback_plan_complete)
 
-        def callback_plan_start(id, event, data):
+        def callback_plan_start(subs_id, event, data):
             # print "Plan {0} is starting".format(data['plan_id'])
             True
 
