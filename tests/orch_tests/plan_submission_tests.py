@@ -8,20 +8,8 @@ from util import pubsub
 
 class PlanSubmissionTestsInit(unittest.TestCase):
     def setUp(self):
-        self.plan_parser = plan_parser
 
-        self.plan_repo = plan_repo.PlanRepo(
-            plan_parser=plan_parser
-        )
-
-        self.plan_exec = plan_exec.PlanExec(
-            plan_repo=self.plan_repo
-        )
-
-        self.orchestrator = orchestrator.Orchestrator(
-            plan_repo=self.plan_repo,
-            plan_exec=self.plan_exec
-        )
+        self.orchestrator = orchestrator.Orchestrator()
 
 
 class PlanSubmissionTests(PlanSubmissionTestsInit):
