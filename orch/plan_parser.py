@@ -78,4 +78,7 @@ def parse_plan_json(plan_json):
         def get_dependency_to(dep):
             return dep["to"]
 
+        def get_task_ids(self):
+            return map(lambda task: task["@id"], self.__plan["tasks"])
+
     return PlanParserDeco()

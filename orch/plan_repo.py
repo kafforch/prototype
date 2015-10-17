@@ -9,8 +9,7 @@ class PlanRepo:
         plan.set_plan_id(plan_id)
         plan.set_plan_as_new()
 
-        for task in plan.get_tasks():
-            plan.set_task_as_new(task)
+        map(lambda task: plan.set_task_as_new(task), plan.get_tasks())
 
         self.__plans.append(plan)
         return plan_id
@@ -39,18 +38,16 @@ class PlanRepo:
         :return: task_ids of tasks ready to run.
         """
 
-        task_ids = []
-
         plan = self.get_plan_by_id(plan_id)
-        tasks = plan.get_tasks()
 
-        for task in tasks:
-            if plan.is_task_initial(task) and len(self.get_ready_tasks_for_plan_task(plan, task)) == 0:
-                task_ids.append(plan.get_task_id(task))
+        def get_next_tasks_to_run(task_id):
+            task = self.get_task_by_id(plan, task_id)
+            return plan.is_task_initial(task) and len(self.get_ready_tasks_for_plan_task(plan, task)) == 0
 
-        return task_ids
+        return filter(get_next_tasks_to_run, plan.get_task_ids())
 
-    def get_ready_tasks_for_plan_task(self, plan, task):
+    @staticmethod
+    def get_ready_tasks_for_plan_task(plan, task):
         predecessors = []
         task_id = plan.get_task_id(task)
 
@@ -86,7 +83,8 @@ class PlanRepo:
 
         return task_ids
 
-    def get_task_by_id(self, plan, task_id):
+    @staticmethod
+    def get_task_by_id(plan, task_id):
         for task in plan.get_tasks():
             if plan.get_task_id(task) == task_id:
                 return task
