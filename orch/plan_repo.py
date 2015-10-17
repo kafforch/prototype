@@ -52,18 +52,18 @@ class PlanRepo:
         task_id = task.get_task_id()
 
         for dependency in plan.get_dependencies():
-            dependency_id = plan.get_dependency_to(dependency)
+            dependency_id = dependency.get_dependency_to()
             if dependency_id == task_id:
-                predecessors.append(plan.get_dependency_from(dependency))
+                predecessors.append(dependency.get_dependency_from())
 
         return predecessors
 
     def all_dependencies_complete_for_task(self, plan, task_id):
         dependencies = plan.get_dependencies()
         for dependency in dependencies:
-            from_task_id = plan.get_dependency_from(dependency)
+            from_task_id = dependency.get_dependency_from()
             from_task = self.get_task_by_id(plan, from_task_id)
-            if plan.get_dependency_to(dependency) == task_id and \
+            if dependency.get_dependency_to() == task_id and \
                     not from_task.is_task_complete():
                 return False
 
@@ -74,8 +74,8 @@ class PlanRepo:
         plan = self.get_plan_by_id(plan_id)
 
         for dependency in plan.get_dependencies():
-            if plan.get_dependency_from(dependency) == task_id:
-                dep_task_id = plan.get_dependency_to(dependency)
+            if dependency.get_dependency_from() == task_id:
+                dep_task_id = dependency.get_dependency_to()
                 dep_task = self.get_task_by_id(plan, dep_task_id)
                 if dep_task.is_task_initial() and \
                         self.all_dependencies_complete_for_task(plan, dep_task_id):

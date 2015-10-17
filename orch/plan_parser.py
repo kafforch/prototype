@@ -4,6 +4,17 @@ import uuid
 
 def parse_plan_json(plan_json):
 
+    class DependencyParserDeco:
+
+        def __init__(self, dependency):
+            self.__dependency = dependency
+
+        def get_dependency_from(self):
+            return self.__dependency["from"]
+
+        def get_dependency_to(self):
+            return self.__dependency["to"]
+
 
     class TaskParserDeco:
 
@@ -57,23 +68,13 @@ def parse_plan_json(plan_json):
         def get_tasks(self):
             return map(lambda task: TaskParserDeco(task), self.__plan["tasks"])
 
-
         def set_plan_as_complete(self):
             self.__plan["plan_status"] = "COMPLETE"
 
-
-        def get_dependencies(self):
-            return self.__plan["dependencies"]
-
-        @staticmethod
-        def get_dependency_from(dep):
-            return dep["from"]
-
-        @staticmethod
-        def get_dependency_to(dep):
-            return dep["to"]
-
         def get_task_ids(self):
             return map(lambda task: task["@id"], self.__plan["tasks"])
+
+        def get_dependencies(self):
+            return map(lambda d: DependencyParserDeco(d), self.__plan["dependencies"])
 
     return PlanParserDeco()
