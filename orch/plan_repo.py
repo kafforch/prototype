@@ -9,7 +9,7 @@ class PlanRepo:
         plan.set_plan_id(plan_id)
         plan.set_plan_as_new()
 
-        map(lambda task: plan.set_task_as_new(task), plan.get_tasks())
+        map(lambda task: task.set_task_as_new(), plan.get_tasks())
 
         self.__plans.append(plan)
         return plan_id
@@ -18,16 +18,16 @@ class PlanRepo:
         plan = self.get_plan_by_id(plan_id)
         tasks = plan.get_tasks()
         for task in tasks:
-            if task_id == plan.get_task_id(task):
-                plan.set_task_as_running(task)
+            if task_id == task.get_task_id():
+                task.set_task_as_running()
                 return
 
     def set_task_complete(self, plan_id, task_id):
         plan = self.get_plan_by_id(plan_id)
         tasks = plan.get_tasks()
         for task in tasks:
-            if task_id == plan.get_task_id(task):
-                plan.set_task_as_complete(task)
+            if task_id == task.get_task_id():
+                task.set_task_as_complete()
                 return
 
     def initial_get_ready_tasks_for_plan(self, plan_id):
@@ -42,14 +42,14 @@ class PlanRepo:
 
         def get_next_tasks_to_run(task_id):
             task = self.get_task_by_id(plan, task_id)
-            return plan.is_task_initial(task) and len(self.get_ready_tasks_for_plan_task(plan, task)) == 0
+            return task.is_task_initial() and len(self.get_ready_tasks_for_plan_task(plan, task)) == 0
 
         return filter(get_next_tasks_to_run, plan.get_task_ids())
 
     @staticmethod
     def get_ready_tasks_for_plan_task(plan, task):
         predecessors = []
-        task_id = plan.get_task_id(task)
+        task_id = task.get_task_id()
 
         for dependency in plan.get_dependencies():
             dependency_id = plan.get_dependency_to(dependency)
@@ -64,7 +64,7 @@ class PlanRepo:
             from_task_id = plan.get_dependency_from(dependency)
             from_task = self.get_task_by_id(plan, from_task_id)
             if plan.get_dependency_to(dependency) == task_id and \
-                    not plan.is_task_complete(from_task):
+                    not from_task.is_task_complete():
                 return False
 
         return True
@@ -77,7 +77,7 @@ class PlanRepo:
             if plan.get_dependency_from(dependency) == task_id:
                 dep_task_id = plan.get_dependency_to(dependency)
                 dep_task = self.get_task_by_id(plan, dep_task_id)
-                if plan.is_task_initial(dep_task) and \
+                if dep_task.is_task_initial() and \
                         self.all_dependencies_complete_for_task(plan, dep_task_id):
                     task_ids.append(dep_task_id)
 
@@ -86,21 +86,21 @@ class PlanRepo:
     @staticmethod
     def get_task_by_id(plan, task_id):
         for task in plan.get_tasks():
-            if plan.get_task_id(task) == task_id:
+            if task.get_task_id() == task_id:
                 return task
 
     def get_task_name(self, plan_id, task_id):
         for plan in self.__plans:
             if plan.get_plan_id() == plan_id:
                 for task in plan.get_tasks():
-                    if plan.task_get_id(task) == task_id:
-                        return plan.task_get_name(task)
+                    if task.task_get_id() == task_id:
+                        return task.task_get_name()
 
     def are_all_tasks_complete(self, plan_id):
         plan = self.get_plan_by_id(plan_id)
         tasks = plan.get_tasks()
         for task in tasks:
-            if not plan.is_task_complete(task):
+            if not task.is_task_complete():
                 return False
         return True
 

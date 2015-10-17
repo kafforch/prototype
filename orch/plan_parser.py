@@ -5,66 +5,61 @@ import uuid
 def parse_plan_json(plan_json):
 
 
+    class TaskParserDeco:
+
+        def __init__(self, task):
+            self.__task = task
+
+        def task_get_id(self):
+            return self.__task["@id"]
+
+        def task_get_name(self):
+            return self.__task["name"]
+
+        def is_task_complete(self):
+            return self.__task['task_status'] == "COMPLETE"
+
+        def is_task_initial(self):
+            return self.__task['task_status'] == "INITIAL"
+
+        def set_task_as_complete(self):
+            self.__task['task_status'] = "COMPLETE"
+
+        def set_task_as_new(self):
+            self.__task['task_status'] = "INITIAL"
+
+        def set_task_as_running(self):
+            self.__task['task_status'] = "RUNNING"
+
+        def get_task_id(self):
+            return self.__task["@id"]
+
+
     class PlanParserDeco:
-
-        def __init__(self):
-            self.__plan = json.loads(plan_json)
-
-        def set_plan_id(self, plan_id):
-            self.__plan["plan_id"] = plan_id
-
-
-        def get_plan_id(self):
-            return self.__plan["plan_id"]
-
-
-        def set_plan_as_new(self):
-            self.__plan["plan_status"] = "INITIAL"
-
-
-        def get_tasks(self):
-            return self.__plan["tasks"]
-
-
-        @staticmethod
-        def task_get_id(task):
-            return task["@id"]
-
-        @staticmethod
-        def task_get_name(task):
-            return task["name"]
 
         @staticmethod
         def get_id():
             return str(uuid.uuid4())
 
+        def __init__(self):
+            self.__plan = json.loads(plan_json)
+            self.tasks = self.get_tasks()
+
+        def set_plan_id(self, plan_id):
+            self.__plan["plan_id"] = plan_id
+
+        def get_plan_id(self):
+            return self.__plan["plan_id"]
+
+        def set_plan_as_new(self):
+            self.__plan["plan_status"] = "INITIAL"
+
+        def get_tasks(self):
+            return map(lambda task: TaskParserDeco(task), self.__plan["tasks"])
+
 
         def set_plan_as_complete(self):
             self.__plan["plan_status"] = "COMPLETE"
-
-        @staticmethod
-        def is_task_complete(task):
-            return task['task_status'] == "COMPLETE"
-
-        @staticmethod
-        def is_task_initial(task):
-            return task['task_status'] == "INITIAL"
-
-        @staticmethod
-        def set_task_as_complete(task):
-            task['task_status'] = "COMPLETE"
-
-        @staticmethod
-        def set_task_as_new(task):
-            task['task_status'] = "INITIAL"
-
-        @staticmethod
-        def set_task_as_running(task):
-            task['task_status'] = "RUNNING"
-
-        @staticmethod
-        def get_task_id(task):
-            return task["@id"]
 
 
         def get_dependencies(self):
