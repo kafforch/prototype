@@ -2,17 +2,12 @@ import random
 import unittest
 import time
 
-from orch import orchestrator, plan_parser, plan_exec, plan_repo
+from orch import orchestrator
 from util import pubsub
 
 
-class PlanSubmissionTestsInit(unittest.TestCase):
-    def setUp(self):
 
-        self.orchestrator = orchestrator.Orchestrator()
-
-
-class PlanSubmissionTests(PlanSubmissionTestsInit):
+class PlanSubmissionTests(unittest.TestCase):
 
     def test_plan_submission_for_plan_02(self):
         plan_json = open('tests/json/plan_02.json', 'r').read()
@@ -51,7 +46,7 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
         pubsub.subscribe("START_PLAN", callback_plan_start)
 
         # Submission. All subscriptions happen before this
-        self.orchestrator.submit_plan_for_execution(plan_json)
+        orchestrator.submit_plan_for_execution(plan_json)
 
 
     def test_plan_submission_for_plan_01(self):
@@ -90,5 +85,5 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
         pubsub.subscribe("START_PLAN", callback_plan_start)
 
         # Submission. All subscriptions happen before this
-        self.orchestrator.submit_plan_for_execution(plan_json)
+        orchestrator.submit_plan_for_execution(plan_json)
 
