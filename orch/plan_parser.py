@@ -2,6 +2,10 @@ import json
 import uuid
 
 
+def get_id():
+    return str(uuid.uuid4())
+
+
 def parse_plan_json(plan_json):
 
     class DependencyParserDeco:
@@ -47,10 +51,6 @@ def parse_plan_json(plan_json):
 
 
     class PlanParserDeco:
-
-        @staticmethod
-        def get_id():
-            return str(uuid.uuid4())
 
         def __init__(self):
             self.__plan = json.loads(plan_json)

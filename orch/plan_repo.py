@@ -5,7 +5,7 @@ __plans=[]
 
 def save_new_plan(plan_json):
     plan = plan_parser.parse_plan_json(plan_json)
-    plan_id = plan.get_id()
+    plan_id = plan_parser.get_id()
     plan.set_plan_id(plan_id)
     plan.set_plan_as_new()
 
