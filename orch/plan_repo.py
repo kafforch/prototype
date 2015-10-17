@@ -1,6 +1,6 @@
 import plan_parser
 
-__plans=[]
+__plans = []
 
 
 def save_new_plan(plan_json):
