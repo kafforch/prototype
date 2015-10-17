@@ -32,12 +32,12 @@ class EventManagerTests(unittest.TestCase):
         self.assertEqual(pubsub.get_num_of_subscribers("START"), 1)
 
         # Unsubscribe the same id twice. Should only be unsubscribed once
-        pubsub.unsubscribe(callback, "START")
-        pubsub.unsubscribe(callback, "START")
+        pubsub.unsubscribe("START", callback)
+        pubsub.unsubscribe("START", callback)
 
         self.assertEqual(pubsub.get_num_of_subscribers("START"), 0)
 
         # Unsubscribe the last one and check there is no subscribers
-        pubsub.unsubscribe(callback, "START")
+        pubsub.unsubscribe("START", callback)
 
         self.assertEqual(pubsub.get_num_of_subscribers("START"), 0)

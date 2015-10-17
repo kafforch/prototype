@@ -9,7 +9,7 @@ def subscribe(event, receiver):
     dispatcher.connect(receiver, signal=event, sender=dispatcher.Any)
 
 
-def unsubscribe(sender, event):
+def unsubscribe(event, sender):
     try:
         dispatcher.disconnect(sender, signal=event)
     except KeyError:
@@ -17,9 +17,9 @@ def unsubscribe(sender, event):
         pass
 
 
-def get_num_of_subscribers(signal):
+def get_num_of_subscribers(event):
     i = 0
-    __list = dispatcher.getAllReceivers(sender=dispatcher.Any, signal=signal)
+    __list = dispatcher.getAllReceivers(sender=dispatcher.Any, signal=event)
     for _ in __list:
         i += 1
 

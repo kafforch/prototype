@@ -24,8 +24,7 @@ class PlanExec:
 
     def __task_complete(self, event, data):
         """
-        Callback on completed events. Sets the completed task in the plan and checks if the plan can be marked completed.
-        :param id: Subscriber id
+        Callback on completed events. Sets the completed task in the plan and checks if the plan can be marked completed
         :param event: Event pubslished
         :param data: Dictionary with event data
         :return:
@@ -33,7 +32,7 @@ class PlanExec:
         self.__plan_repo.set_task_complete(data['plan_id'], data['task_id'])
 
         # unsubscribe
-        pubsub.unsubscribe(self.__task_complete, "END_TASK")
+        pubsub.unsubscribe("END_TASK", self.__task_complete)
 
         if self.__plan_repo.are_all_tasks_complete(data['plan_id']):
             self.__plan_repo.set_plan_as_complete(data['plan_id'])

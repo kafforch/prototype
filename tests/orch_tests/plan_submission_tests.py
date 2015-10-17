@@ -51,9 +51,9 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
 
         def callback_plan_complete(event, data):
             print "Plan {0} is complete".format(data['plan_id'])
-            pubsub.unsubscribe(callback_plan_complete, "START_TASK")
-            pubsub.unsubscribe(callback_plan_complete, "END_PLAN")
-            pubsub.unsubscribe(callback_plan_complete, "START_PLAN")
+            pubsub.unsubscribe("START_TASK", callback_plan_complete)
+            pubsub.unsubscribe("END_PLAN", callback_plan_complete)
+            pubsub.unsubscribe("START_PLAN", callback_plan_complete)
 
         pubsub.subscribe("END_PLAN", callback_plan_complete)
 
@@ -88,9 +88,9 @@ class PlanSubmissionTests(PlanSubmissionTestsInit):
         def callback_plan_complete(event, data):
             # print "Plan {0} is complete".format(data['plan_id'])
             self.assertEqual(pubsub.get_num_of_subscribers(event), 1)
-            pubsub.unsubscribe(callback_plan_complete, "START_TASK")
-            pubsub.unsubscribe(callback_plan_complete, "END_PLAN")
-            pubsub.unsubscribe(callback_plan_complete, "START_PLAN")
+            pubsub.unsubscribe("START_TASK", callback_plan_complete)
+            pubsub.unsubscribe("END_PLAN", callback_plan_complete)
+            pubsub.unsubscribe("START_PLAN", callback_plan_complete)
             self.assertEqual(pubsub.get_num_of_subscribers(event), 0)
 
         pubsub.subscribe("END_PLAN", callback_plan_complete)
