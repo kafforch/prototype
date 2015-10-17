@@ -14,13 +14,13 @@ def unsubscribe(sender, event):
         dispatcher.disconnect(sender, signal=event)
     except KeyError:
         # Shush, just work
-        True
+        pass
 
 
 def get_num_of_subscribers(signal):
     i = 0
-    _list = dispatcher.getAllReceivers(sender=dispatcher.Any, signal=signal)
-    for _item in _list:
-        i+=1
+    __list = dispatcher.getAllReceivers(sender=dispatcher.Any, signal=signal)
+    for _ in __list:
+        i += 1
 
     return i
