@@ -20,7 +20,7 @@ def execute_plan(plan_id):
         __execute_task(plan_id, task_id, __task_complete)
 
 
-def __task_complete(event, data):
+def __task_complete(_, data):
     """
     Callback on completed events. Sets the completed task in the plan and checks if the plan can be marked completed
     :param event: Event pubslished
