@@ -1,9 +1,4 @@
 import json
-import uuid
-
-
-def get_id():
-    return str(uuid.uuid4())
 
 
 def parse_plan_json(plan_json):

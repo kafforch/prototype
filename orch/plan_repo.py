@@ -1,11 +1,16 @@
+import uuid
 import plan_parser
 
 __plans = []
 
 
+def get_id():
+    return str(uuid.uuid4())
+
+
 def save_new_plan(plan_json):
     plan = plan_parser.parse_plan_json(plan_json)
-    plan_id = plan_parser.get_id()
+    plan_id = get_id()
     plan.set_plan_id(plan_id)
     plan.set_plan_as_new()
 
