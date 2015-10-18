@@ -14,26 +14,27 @@ class PlanSubmissionTests(unittest.TestCase):
 
         # callback to simulate a fragment work
         def callback(event, data):
-            print "Received event {0} with data {1}".format(event, data)
+            # print "Received event {0} with data {1}".format(event, data)
 
             # pausing and randomness
-            sleep_interval = random.randint(1,5)
-            print "Sleeping for {0}".format(sleep_interval)
-            time.sleep(sleep_interval)
+            # sleep_interval = random.randint(1,5)
+            # print "Sleeping for {0}".format(sleep_interval)
+            # time.sleep(sleep_interval)
 
-            print "Sending complete notification for task {0}".format(data['task_id'])
+            # print "Sending complete notification for task {0}".format(data['task_id'])
             pubsub.publish("END_TASK", data)
 
         pubsub.subscribe("START_TASK", callback)
 
         # simple callback on completion
         def callback_complete(event, data):
-            print "Task {0} of plan {1} is complete".format(data['task_id'], data['plan_id'])
+            # print "Task {0} of plan {1} is complete".format(data['task_id'], data['plan_id'])
+            True
 
         pubsub.subscribe("END_TASK", callback_complete)
 
         def callback_plan_complete(event, data):
-            print "Plan {0} is complete".format(data['plan_id'])
+            # print "Plan {0} is complete".format(data['plan_id'])
             pubsub.unsubscribe("START_TASK", callback_plan_complete)
             pubsub.unsubscribe("END_PLAN", callback_plan_complete)
             pubsub.unsubscribe("START_PLAN", callback_plan_complete)
@@ -41,7 +42,8 @@ class PlanSubmissionTests(unittest.TestCase):
         pubsub.subscribe("END_PLAN", callback_plan_complete)
 
         def callback_plan_start(event, data):
-            print "Plan {0} is starting".format(data['plan_id'])
+            # print "Plan {0} is starting".format(data['plan_id'])
+            True
 
         pubsub.subscribe("START_PLAN", callback_plan_start)
 
