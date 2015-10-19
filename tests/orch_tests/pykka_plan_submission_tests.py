@@ -1,7 +1,7 @@
 import logging
 import unittest
 
-from orch import orchestrator, plan_exec, plan_repo, task_exec
+from orch import plan_exec, plan_repo, task_exec
 
 
 class MyTestCaseBase(unittest.TestCase):
