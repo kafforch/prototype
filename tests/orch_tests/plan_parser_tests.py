@@ -4,7 +4,7 @@ from orch import plan_parser
 
 class MyTestCaseBase(unittest.TestCase):
     def setUp(self):
-        self.plan_json = open('tests/json/plan_01.json', 'r').read()
+        self.plan_json = open('tests/orch_tests/json/plan_01.json', 'r').read()
 
 
 class MyTestCase(MyTestCaseBase):

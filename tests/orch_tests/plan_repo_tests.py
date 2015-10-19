@@ -4,8 +4,8 @@ from orch import plan_repo
 
 class MyTestCaseBase(unittest.TestCase):
     def setUp(self):
-        self.plan_json1 = open('tests/json/plan_01.json', 'r').read()
-        self.plan_json2 = open('tests/json/plan_02.json', 'r').read()
+        self.plan_json1 = open('tests/orch_tests/json/plan_01.json', 'r').read()
+        self.plan_json2 = open('tests/orch_tests/json/plan_02.json', 'r').read()
 
 
 class MyTestCase(MyTestCaseBase):
