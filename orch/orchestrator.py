@@ -4,7 +4,7 @@ import task_exec
 import plan_repo
 
 
-def execute_plan(plan_id, task_starter=task_exec.SimpleTaskStarter(), task_listener=task_exec.SimpleTaskListener()):
+def execute_plan(plan_id, task_starter=None, task_listener=None):
     logger = logging.getLogger(__name__)
 
     logger.debug("Called execute_plan for {0}".format(plan_id))

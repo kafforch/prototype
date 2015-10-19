@@ -9,17 +9,17 @@ logger = logging.getLogger(__name__)
 def execute_task(plan_executor, plan_id, task_id, task_starter, task_listener):
     logger.debug("Called execute_task for plan {0}, task {1}".format(plan_id, task_id))
     plan_repo.set_task_running(plan_id, task_id)
+    _task_listener = task_listener if task_listener else SimpleTaskListener()
     _task_starter = task_starter if task_starter else SimpleTaskStarter()
     task_executor = TaskExecutor.start(
         plan_exec=plan_executor,
         task_starter=_task_starter,
-        task_listener=task_listener
+        task_listener=_task_listener
     ).proxy()
     task_executor.execute_task(plan_id, task_id)
 
 
 class TaskExecutor(pykka.ThreadingActor):
-
     def __init__(self, plan_exec, task_starter, task_listener):
         super(TaskExecutor, self).__init__()
         self.plan_exec = plan_exec
