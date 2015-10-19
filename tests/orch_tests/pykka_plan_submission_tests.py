@@ -1,16 +1,15 @@
 import unittest
 
-from orch import plan_exec, plan_repo
+from orch import orchestrator
 
 
 class MyTestCaseBase(unittest.TestCase):
     def setUp(self):
-        self.plan_executor = plan_exec.PlanExecutor.start().proxy()
+        pass
 
 
 class MyTestCase(MyTestCaseBase):
 
     def test_pykka_plan_02_submission(self):
         plan_json = open('tests/json/plan_02.json', 'r').read()
-        plan_id = plan_repo.save_new_plan(plan_json)
-        self.plan_executor.execute_plan(plan_id)
+        orchestrator.submit_plan_for_execution(plan_json)
