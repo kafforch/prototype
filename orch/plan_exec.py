@@ -13,8 +13,7 @@ def execute_plan(plan_id):
     plan_executor = PlanExecutor.start().proxy()
 
     for task_id in ready_task_ids:
-        task_executor = task_exec.TaskExecutor.start(plan_exec=plan_executor).proxy()
-        task_executor.execute_task(plan_id, task_id)
+        task_exec.execute_task(plan_executor, plan_id, task_id)
 
 
 class PlanExecutor(pykka.ThreadingActor):
@@ -33,6 +32,5 @@ class PlanExecutor(pykka.ThreadingActor):
         else:
             # Execute dependent tasks
             for dep_task_id in plan_repo.get_ready_dependent_tasks(plan_id, task_id):
-                task_executor = task_exec.TaskExecutor.start(plan_exec=self).proxy()
-                task_executor.execute_task(plan_id, dep_task_id)
+                task_exec.execute_task(self, plan_id, dep_task_id)
 
