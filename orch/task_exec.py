@@ -10,7 +10,6 @@ class TaskExecutor(pykka.ThreadingActor):
         self.__plan_exec = plan_exec
 
 
-
     def execute_task(self, plan_id, task_id):
         print "Called execute_task for plan {0}, task {1}".format(plan_id, task_id)
 
