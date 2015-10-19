@@ -1,3 +1,4 @@
+import logging
 import unittest
 
 from orch import orchestrator
@@ -5,7 +6,7 @@ from orch import orchestrator
 
 class MyTestCaseBase(unittest.TestCase):
     def setUp(self):
-        pass
+        logging.basicConfig(level=logging.DEBUG)
 
 
 class MyTestCase(MyTestCaseBase):
