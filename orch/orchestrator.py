@@ -39,4 +39,3 @@ class PlanExecutor(pykka.ThreadingActor):
             # Execute dependent tasks
             for dep_task_id in plan_repo.get_ready_dependent_tasks(plan_id, task_id):
                 task_exec.execute_task(self, plan_id, dep_task_id, self.__task_starter, self.__task_listener)
-

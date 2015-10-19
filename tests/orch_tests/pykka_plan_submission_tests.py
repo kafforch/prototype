@@ -1,7 +1,7 @@
 import logging
 import unittest
 
-from orch import plan_exec, plan_repo, task_exec
+from orch import orchestrator, plan_repo, task_exec
 
 
 class MyTestCaseBase(unittest.TestCase):
@@ -21,7 +21,7 @@ class MyTestCase(MyTestCaseBase):
                 test_self.assertIn(int(task_id), range(1, 5))
                 self.task_completed(plan_executor, plan_id, task_id)
 
-        plan_exec.execute_plan(plan_id=plan_01_id, task_listener=Test01TaskListener())
+        orchestrator.execute_plan(plan_id=plan_01_id, task_listener=Test01TaskListener())
 
     def test_pykka_plan_02_submission(self):
         plan_json = open('tests/json/plan_02.json', 'r').read()
@@ -33,4 +33,4 @@ class MyTestCase(MyTestCaseBase):
                 test_self.assertIn(int(task_id), range(1, 11))
                 self.task_completed(plan_executor, plan_id, task_id)
 
-        plan_exec.execute_plan(plan_id=plan_02_id, task_listener=Test02TaskListener())
+        orchestrator.execute_plan(plan_id=plan_02_id, task_listener=Test02TaskListener())
