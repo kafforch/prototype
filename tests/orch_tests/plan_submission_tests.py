@@ -6,7 +6,7 @@ from orch import orchestrator, plan_repo, task_exec
 
 class MyTestCaseBase(unittest.TestCase):
     def setUp(self):
-        logging.basicConfig(level=logging.INFO)
+        logging.basicConfig(level=logging.DEBUG)
 
 
 class MyTestCase(MyTestCaseBase):
