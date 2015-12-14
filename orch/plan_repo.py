@@ -39,13 +39,6 @@ def set_task_complete(plan_id, task_id):
 
 
 def initial_get_ready_tasks_for_plan(plan_id):
-    """
-    Returns task_ids for plan_id that are ready for execution initially.
-
-    :param plan_id:
-    :return: task_ids of tasks ready to run.
-    """
-
     plan = get_plan_by_id(plan_id)
 
     def get_next_tasks_to_run(task_id):
