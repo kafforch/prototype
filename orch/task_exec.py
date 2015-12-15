@@ -8,6 +8,9 @@ logger = logging.getLogger(__name__)
 
 def execute_task(plan_executor, plan_id, task_id, task_starter, task_listener):
     logger.debug("Called execute_task for plan {0}, task {1}".format(plan_id, task_id))
+
+    # TODO - check if the task can run based on start_on or finish_on-typical_duration
+
     plan_repo.set_task_running(plan_id, task_id)
     _task_listener = task_listener if task_listener else SimpleTaskListener()
     _task_starter = task_starter if task_starter else SimpleTaskStarter()

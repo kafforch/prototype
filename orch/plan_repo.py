@@ -8,6 +8,10 @@ def get_id():
     return str(uuid.uuid4())
 
 
+def get_plans_with_outstanding_time_based_tasks():
+    return map(lambda plan: plan.get_plan_id(), __plans)
+
+
 def save_new_plan(plan_json):
     plan = plan_parser.parse_plan_json(plan_json)
     plan_id = get_id()
