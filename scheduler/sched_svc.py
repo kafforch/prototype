@@ -24,7 +24,7 @@ def scheduler_loop():
     # Main scheduler loop
     while 1 == 1 :
         time.sleep(get_delay())
-        for plan_id in plan_repo.get_plans_with_outstanding_time_based_tasks():
+        for plan_id in plan_repo.get_plan_ids_with_outstanding_time_based_tasks():
             logger.debug("Checking if plan {} has ready to run timed tasks".format(plan_id))
             orchestrator.run_ready_tasks(plan_id)
 

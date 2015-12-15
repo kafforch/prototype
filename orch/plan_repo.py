@@ -8,7 +8,7 @@ def get_id():
     return str(uuid.uuid4())
 
 
-def get_plans_with_outstanding_time_based_tasks():
+def get_plan_ids_with_outstanding_time_based_tasks():
     return map(lambda plan: plan.get_plan_id(), __plans)
 
 
