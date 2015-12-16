@@ -59,6 +59,15 @@ def parse_plan_json(plan_json):
         def set_plan_as_new(self):
             self.__plan["plan_status"] = "INITIAL"
 
+        def set_plan_as_running(self):
+            self.__plan["plan_status"] = "RUNNING"
+
+        def is_plan_initial(self):
+            return self.__plan["plan_status"] == "INITIAL"
+
+        def is_plan_running(self):
+            return self.__plan["plan_status"] == "RUNNING"
+
         def get_tasks(self):
             return map(lambda task: TaskParserDeco(task), self.__plan["tasks"])
 

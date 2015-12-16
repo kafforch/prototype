@@ -8,6 +8,7 @@ def execute_plan(plan_id, task_starter=None, task_listener=None):
     logger = logging.getLogger(__name__)
 
     logger.debug("Called execute_plan for {0}".format(plan_id))
+    plan_repo.set_plan_as_running(plan_id)
     ready_task_ids = plan_repo.initial_get_ready_tasks_for_plan(plan_id)
 
     plan_executor = PlanExecutor.start(
@@ -20,7 +21,7 @@ def execute_plan(plan_id, task_starter=None, task_listener=None):
 
 
 # TODO Create method that checks if the plan has ready tasks to run, and runs them. Will be called by scheduler
-def run_ready_tasks(plan_id):
+def run_ready_timed_tasks(plan_id):
     pass
 
 

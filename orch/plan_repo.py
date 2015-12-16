@@ -119,6 +119,11 @@ def set_plan_as_complete(plan_id):
     plan.set_plan_as_complete()
 
 
+def set_plan_as_running(plan_id):
+    plan = get_plan_by_id(plan_id)
+    plan.set_plan_as_running()
+
+
 def get_plan_by_id(plan_id):
     matching_plans = [x for x in __plans if x.get_plan_id() == plan_id]
     if len(matching_plans):

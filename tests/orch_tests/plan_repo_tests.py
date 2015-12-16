@@ -14,6 +14,8 @@ class MyTestCase(MyTestCaseBase):
         plan_id = plan_repo.save_new_plan(self.plan_json1)
         plan = plan_repo.get_plan_by_id(plan_id)
         self.assertEqual(plan.get_plan_id(), plan_id)
+        self.assertTrue(plan.is_plan_initial())
+        self.assertFalse(plan.is_plan_running())
 
     def test_plan_ready_tasks_after_1(self):
         plan_id = plan_repo.save_new_plan(self.plan_json2)
