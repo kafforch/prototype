@@ -32,7 +32,9 @@ def start_timed_tasks_for_running_plans():
     for plan_id in plan_repo.get_running_plan_ids():
         plan = plan_repo.get_plan_by_id(plan_id)
         for task in plan.get_tasks():
-            print task.get_starts_on()
+            task_start_time = task.get_start_on()
+            if task_start_time and timer_svc.is_current_datetime_later_than(task_start_time):
+                orchestrator.execute_task(plan_id, task.get_task_id())
 
 
 def scheduler_loop():

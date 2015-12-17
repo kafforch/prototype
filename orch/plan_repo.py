@@ -6,7 +6,9 @@ class PlanStore:
     def __init__(self):
         self.plans = []
 
+
 plan_store = PlanStore()
+
 
 def get_id():
     return str(uuid.uuid4())
@@ -17,15 +19,14 @@ def purge_all_plans():
 
 
 def get_running_plan_ids():
-    return map(lambda x: x.plan_id, filter(lambda p: p.is_plan_running(),plan_store.plans))
+    return map(lambda x: x.get_plan_id(), filter(lambda p: p.is_plan_running(), plan_store.plans))
 
 
 def get_not_started_timed_plan_ids():
-
     def timed_and_not_started_plan(plan):
         return plan.get_start_on() is not None and plan.is_plan_initial()
 
-    return map(lambda plan: plan.get_plan_id(), filter(timed_and_not_started_plan, plan_store.plans) )
+    return map(lambda plan: plan.get_plan_id(), filter(timed_and_not_started_plan, plan_store.plans))
 
 
 def save_new_plan(plan_json):
