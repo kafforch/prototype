@@ -11,7 +11,7 @@ import ConfigParser
 class SchedSvcTests(unittest.TestCase):
     def setUp(self):
         logger = logging.getLogger('scheduler.sched_svc')
-        logger.setLevel(logging.DEBUG)
+        logger.setLevel(logging.INFO)
 
     @mock.patch("scheduler.sched_svc.interrupt", return_value=True)
     @mock.patch("scheduler.sched_svc.open")
