@@ -69,10 +69,10 @@ def parse_plan_json(plan_json):
             return self.__plan["plan_status"] == "RUNNING"
 
         def get_start_on(self):
-            start_on_val = "start_on"
-            if start_on_val in self.__plan:
-                return self.__plan[start_on_val]
-            return None
+            try:
+                return self.__plan["start_on"]
+            except:
+                return None
 
         def get_tasks(self):
             return map(lambda task: TaskParserDeco(task), self.__plan["tasks"])

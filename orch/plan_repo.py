@@ -1,23 +1,32 @@
 import uuid
 import plan_parser
 
-__plans = []
+
+class PlanStore:
+    def __init__(self):
+        self.plans = []
+
+plan_store = PlanStore()
 
 
 def get_id():
     return str(uuid.uuid4())
 
 
+def purge_all_plans():
+    plan_store.plans = []
+
+
 def get_not_started_timed_plan_ids():
 
     def timed_and_not_started_plan(plan):
-        return plan.get_start_on() and plan.is_plan_initial()
+        return plan.get_start_on() is not None and plan.is_plan_initial()
 
-    return map(lambda plan: plan.get_plan_id(), filter(timed_and_not_started_plan, __plans) )
+    return map(lambda plan: plan.get_plan_id(), filter(timed_and_not_started_plan, plan_store.plans) )
 
 
 def get_plan_ids_with_outstanding_time_based_tasks():
-    return map(lambda plan: plan.get_plan_id(), __plans)
+    return map(lambda plan: plan.get_plan_id(), plan_store.plans)
 
 
 def save_new_plan(plan_json):
@@ -28,7 +37,7 @@ def save_new_plan(plan_json):
 
     map(lambda task: task.set_task_as_new(), plan.get_tasks())
 
-    __plans.append(plan)
+    plan_store.plans.append(plan)
     return plan_id
 
 
@@ -106,7 +115,7 @@ def get_task_by_id(plan, task_id):
 
 
 def get_task_name(plan_id, task_id):
-    for plan in __plans:
+    for plan in plan_store.plans:
         if plan.get_plan_id() == plan_id:
             for task in plan.get_tasks():
                 if task.task_get_id() == task_id:
@@ -133,7 +142,7 @@ def set_plan_as_running(plan_id):
 
 
 def get_plan_by_id(plan_id):
-    matching_plans = [x for x in __plans if x.get_plan_id() == plan_id]
+    matching_plans = [x for x in plan_store.plans if x.get_plan_id() == plan_id]
     if len(matching_plans):
         return matching_plans[0]
     else:
