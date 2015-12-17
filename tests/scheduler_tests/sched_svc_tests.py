@@ -22,7 +22,7 @@ class SchedSvcTestsBase(unittest.TestCase):
         plan_repo.purge_all_plans()
 
 
-@unittest.skip("timed tasks starter is not ready yet, skipping the tests")
+#@unittest.skip("timed tasks starter is not ready yet, skipping the tests")
 class SchedSvcTests1(SchedSvcTestsBase):
 
     def test_start_timed_tasks_for_running_plans1(self):

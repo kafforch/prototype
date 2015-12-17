@@ -22,6 +22,12 @@ def execute_plan(plan_id, task_starter=None, task_listener=None):
         task_exec.execute_task(plan_executor, plan_id, task_id, task_starter, task_listener)
 
 
+def execute_task(plan_id, task_id):
+    plan = plan_repo.get_plan_by_id(plan_id)
+    if plan.is_running():
+        task = plan.get_task_by_id(task_id)
+
+
 class PlanExecutor(pykka.ThreadingActor):
     def __init__(self, task_starter, task_listener):
         super(PlanExecutor, self).__init__()
