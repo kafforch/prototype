@@ -35,7 +35,7 @@ class PlanExecutor(pykka.ThreadingActor):
         self.__task_starter = task_starter
         self.__task_listener = task_listener
 
-    # method that return proxy
+    # method that returns proxy - pykka defect #48
     def proxy(self):
         return self.actor_ref.proxy()
 
