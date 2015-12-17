@@ -1,6 +1,7 @@
 from datetime import datetime
 
 TIME_FORMAT = "%Y-%m-%dT%H:%M:%S.000Z"
+INPUT_TIME_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ"
 
 class TimerService:
     def __init__(self, new_time=0):
@@ -36,6 +37,6 @@ def get_current_datetime_str():
 def is_less_than_current_datetime(time_in_str):
     time_in = time_in_str
     if isinstance(time_in_str, basestring):
-        time_in = datetime.strptime(time_in_str, TIME_FORMAT)
+        time_in = datetime.strptime(time_in_str, INPUT_TIME_FORMAT)
 
     return time_in < get_datetime()
