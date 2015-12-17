@@ -8,6 +8,14 @@ def get_id():
     return str(uuid.uuid4())
 
 
+def get_not_started_timed_plan_ids():
+
+    def timed_and_not_started_plan(plan):
+        return plan.get_start_on() and plan.is_plan_initial()
+
+    return map(lambda plan: plan.get_plan_id(), filter(timed_and_not_started_plan, __plans) )
+
+
 def get_plan_ids_with_outstanding_time_based_tasks():
     return map(lambda plan: plan.get_plan_id(), __plans)
 

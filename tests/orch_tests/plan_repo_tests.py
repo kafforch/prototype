@@ -43,3 +43,6 @@ class MyTestCase(MyTestCaseBase):
         dependencies = plan_repo.get_ready_dependent_tasks(plan_id, '8')
         self.assertEqual(len(dependencies), 1)
         self.assertSetEqual(set(dependencies), {'10'})
+
+    def get_not_started_timed_plan_ids(self):
+        print plan_repo.__plans

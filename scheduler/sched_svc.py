@@ -27,12 +27,19 @@ def scheduler_loop():
 
         time.sleep(get_delay())
 
+        logger.debug("Setting new timer time")
+        timer_svc.set_datetime( timer_svc.get_current_datetime( ) )
+
+        logger.debug("Checking if there are timed plans that can be started")
+        for plan_id in plan_repo.get_not_started_timed_plan_ids():
+
+            # This will check if the plan is ready to start
+            plan = plan_repo.get_plan_by_id(plan_id)
+            if timer_svc.is_less_than_current_datetime( plan.get_start_on( ) ):
+                # TODO add task_starter and task listener
+                orchestrator.execute_plan(plan_id)
+
         for plan_id in plan_repo.get_plan_ids_with_outstanding_time_based_tasks():
-
-            logger.debug("Setting new timer time")
-            timer_svc.set_time(timer_svc.get_current_time())
-
-            logger.debug("Checking if there are timed plans that can be started")
 
             logger.debug("Checking if plan {} has ready to run timed tasks".format(plan_id))
             orchestrator.run_ready_timed_tasks(plan_id)

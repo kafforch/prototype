@@ -68,6 +68,12 @@ def parse_plan_json(plan_json):
         def is_plan_running(self):
             return self.__plan["plan_status"] == "RUNNING"
 
+        def get_start_on(self):
+            start_on_val = "start_on"
+            if start_on_val in self.__plan:
+                return self.__plan[start_on_val]
+            return None
+
         def get_tasks(self):
             return map(lambda task: TaskParserDeco(task), self.__plan["tasks"])
 

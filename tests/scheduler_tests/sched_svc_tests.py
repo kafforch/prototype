@@ -25,5 +25,3 @@ class SchedSvcTests(unittest.TestCase):
 
         # Check correct sequence of calls
         mock_run_ready_tasks.assert_has_calls([call('1'), call('2'), call('3')])
-
-
