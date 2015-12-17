@@ -22,11 +22,6 @@ def execute_plan(plan_id, task_starter=None, task_listener=None):
         task_exec.execute_task(plan_executor, plan_id, task_id, task_starter, task_listener)
 
 
-# TODO Create method that checks if the plan has ready tasks to run, and runs them. Will be called by scheduler
-def run_ready_timed_tasks(plan_id):
-    pass
-
-
 class PlanExecutor(pykka.ThreadingActor):
     def __init__(self, task_starter, task_listener):
         super(PlanExecutor, self).__init__()
@@ -51,7 +46,3 @@ class PlanExecutor(pykka.ThreadingActor):
             for dep_task_id in plan_repo.get_ready_dependent_tasks(plan_id, task_id):
                 task_exec.execute_task(self, plan_id, dep_task_id, self.__task_starter, self.__task_listener)
 
-
-# TODO execute task in a olan
-def execute_task(plan_id, task_id):
-    pass
