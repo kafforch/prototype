@@ -44,6 +44,12 @@ def parse_plan_json(plan_json):
         def get_task_id(self):
             return self.__task["@id"]
 
+        def get_start_on(self):
+            try:
+                return self.__task["start_on"]
+            except:
+                return None
+
 
     class PlanParserDeco:
 

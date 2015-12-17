@@ -14,11 +14,14 @@ def execute_task(plan_executor, plan_id, task_id, task_starter, task_listener):
     plan_repo.set_task_running(plan_id, task_id)
     _task_listener = task_listener if task_listener else SimpleTaskListener()
     _task_starter = task_starter if task_starter else SimpleTaskStarter()
-    task_executor = TaskExecutor.start(
+    task_executor = TaskExecutor(
             plan_exec=plan_executor,
             task_starter=_task_starter,
             task_listener=_task_listener
     ).proxy()
+
+    task_executor.start()
+
     task_executor.execute_task(plan_id, task_id)
 
 
@@ -28,6 +31,10 @@ class TaskExecutor(pykka.ThreadingActor):
         self.plan_exec = plan_exec
         self.__task_starter = task_starter
         self.__task_listener = task_listener
+
+    # method that return proxy
+    def proxy(self):
+        return self.actor_ref.proxy()
 
     def execute_task(self, plan_id, task_id):
         self.__task_starter.start_task(plan_id, task_id)

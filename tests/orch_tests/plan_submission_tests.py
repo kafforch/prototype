@@ -9,7 +9,11 @@ class MyTestCaseBase(unittest.TestCase):
         logging.basicConfig(level=logging.INFO)
 
 
+#@unittest.skip("Skipping tests in {}".format(__name__))
 class MyTestCase(MyTestCaseBase):
+
+    def setUp(self):
+        plan_repo.purge_all_plans()
 
     def test_pykka_plan_01_submission(self):
         plan_json = open('tests/orch_tests/json/plan_01.json', 'r').read()
